@@ -9,7 +9,6 @@ SetTimeout(10000, function()
         while true do
             t = os.date("*t")
             for k, v in pairs(DrugTrainConfig.DrugTrain) do
-                print(tonumber(DrugTrainConfig.DrugTrain[k].delais.hoursstart), tonumber(t.hour), tonumber(DrugTrainConfig.DrugTrain[k].delais.minstart), tonumber(t.min))
                 if lastdrugtrain and tonumber(t.hour) == tonumber(DrugTrainConfig.DrugTrain[k].delais.hoursstop) and tonumber(t.min) == tonumber(DrugTrainConfig.DrugTrain[k].delais.minstop) then
                     lastdrugtrain = nil
                     TriggerClientEvent('az_train:dlcremoveDrugsTrainClient', -1, k)
