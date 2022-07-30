@@ -41,6 +41,7 @@ AddEventHandler('az_train:dlccreateDrugsTrainClient', function(index)
                     local coordscaisse = GetOffsetFromEntityInWorldCoords(temptraindrugs, v.x, v.y, v.z - 1.0)
                     caissedrug[k] = CreateObject(GetHashKey('v_ind_cf_boxes'), coordscaisse.x, coordscaisse.y, coordscaisse.z, true, false, false)
                     FreezeEntityPosition(caissedrug[k], true)
+                    SetEntityHeading(caissedrug[k], GetEntityHeading(temptraindrugs))
                 end
             end
         end)
