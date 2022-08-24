@@ -70,8 +70,15 @@ end
 
 RegisterNetEvent('az_train:dlcgiverewardtraindrug')
 AddEventHandler('az_train:dlcgiverewardtraindrug', function(index)
-    local xPlayer = ESX.GetPlayerFromId(source)
-    for k, v in pairs(DrugTrainConfig.DrugTrain[index].reward) do
-        xPlayer.addInventoryItem(k, v)
+    if Config.FrameWork == 'ESX' then
+        local xPlayer = ESX.GetPlayerFromId(source)
+        for k, v in pairs(DrugTrainConfig.DrugTrain[index].reward) do
+            xPlayer.addInventoryItem(k, v)
+        end
+    elseif Config.FrameWork == 'QBCore' then
+        local Player = QBCore.Functions.GetPlayer(source)
+        for k, v in pairs(DrugTrainConfig.DrugTrain[index].reward) do
+            Player.Functions.AddItem(k, v)
+        end
     end
 end)
