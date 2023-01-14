@@ -90,8 +90,9 @@ function LaunchTrain(temptraindrugs, index)
         while indrugmissiontrain do
             local wait = 1000
             local playercoords = GetEntityCoords(GetPlayerPed(-1))
-            for k, v in pairs(caissedrug) do
-                local caissecoords = GetEntityCoords(v)
+            for k, v in pairs(DrugTrainConfig.Cargaison) do
+                local coordscaisse = GetOffsetFromEntityInWorldCoords(temptraindrugs, v.x, v.y, v.z - 1.0)
+                local caissecoords = vector3(coordscaisse.x, coordscaisse.y, coordscaisse.z)
                 if GetDistanceBetweenCoords(playercoords, caissecoords, true) < 50 then
                     if GetDistanceBetweenCoords(playercoords, caissecoords, true) < 2 then
                         wait = 0
