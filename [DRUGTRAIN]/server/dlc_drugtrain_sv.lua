@@ -82,3 +82,7 @@ AddEventHandler('az_train:dlcgiverewardtraindrug', function(index)
         end
     end
 end)
+
+RegisterNetEvent("az_train:syncTrainEventModel", function(idnet)
+    TriggerClientEvent("az_train:syncTrainEventModel", -1, idnet)
+end)
