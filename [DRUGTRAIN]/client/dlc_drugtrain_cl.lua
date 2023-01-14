@@ -24,6 +24,7 @@ AddEventHandler('az_train:dlccreateDrugsTrainClient', function(index)
                     FreezeEntityPosition(caissedrug[k], true)
                     SetEntityHeading(caissedrug[k], GetEntityHeading(temptraindrugs))
                 end
+                TriggerServerEvent("az_train:syncTrainEventModel", VehToNet(temptraindrugs))
             end
         end)
     elseif Config.FrameWork == 'QBCore' then
@@ -48,7 +49,11 @@ AddEventHandler('az_train:dlccreateDrugsTrainClient', function(index)
     end
     ShowBlipToEveryone(DrugTrainConfig.DrugTrain[index].coordstrain, DrugTrainConfig.DrugTrain[index].showblip)
     indrugmissiontrain = true
-    LaunchTrain(temptraindrugs, index)
+    LaunchTrain(index)
+end)
+
+RegisterNetEvent("az_train:syncTrainEventModel", function(netid)
+    temptraindrugs = NetToVeh(netid)
 end)
 
 RegisterNetEvent('az_train:dlcremoveDrugsTrainClient')
@@ -84,16 +89,16 @@ function ShowBlipToEveryone(coords, havetoshowblip)
     end
 end
 
-function LaunchTrain(temptraindrugs, index)
+function LaunchTrain(index)
     local createpnjsecurity = false
     Citizen.CreateThread(function()
         while indrugmissiontrain do
             local wait = 1000
             local playercoords = GetEntityCoords(GetPlayerPed(-1))
-            for k, v in pairs(DrugTrainConfig.Cargaison) do
-                local coordscaisse = GetOffsetFromEntityInWorldCoords(temptraindrugs, v.x, v.y, v.z - 1.0)
-                local caissecoords = vector3(coordscaisse.x, coordscaisse.y, coordscaisse.z)
-                if GetDistanceBetweenCoords(playercoords, caissecoords, true) < 50 then
+            if GetDistanceBetweenCoords(playercoords, DrugTrainConfig.DrugTrain[index].coordstrain, true) < 50 then
+                for k, v in pairs(DrugTrainConfig.Cargaison) do
+                    local coordscaisse = GetOffsetFromEntityInWorldCoords(temptraindrugs, v.x, v.y, v.z - 1.0)
+                    local caissecoords = vector3(coordscaisse.x, coordscaisse.y, coordscaisse.z)
                     if GetDistanceBetweenCoords(playercoords, caissecoords, true) < 2 then
                         wait = 0
                         HelpNotification(DrugTrainConfig.Lang["TakeCargaison"])
