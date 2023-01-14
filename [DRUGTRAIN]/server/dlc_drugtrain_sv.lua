@@ -68,8 +68,7 @@ elseif Config.FrameWork == 'QBCore' then
     end)
 end
 
-RegisterNetEvent('az_train:dlcgiverewardtraindrug')
-AddEventHandler('az_train:dlcgiverewardtraindrug', function(index)
+RegisterNetEvent('az_train:dlcgiverewardtraindrug', function(index)
     if Config.FrameWork == 'ESX' then
         local xPlayer = ESX.GetPlayerFromId(source)
         for k, v in pairs(DrugTrainConfig.DrugTrain[index].reward) do
@@ -85,4 +84,8 @@ end)
 
 RegisterNetEvent("az_train:syncTrainEventModel", function(idnet)
     TriggerClientEvent("az_train:syncTrainEventModel", -1, idnet)
+end)
+
+RegisterNetEvent("az_train:syncPNJTrainEvent", function(tablePNJ)
+    TriggerClientEvent("az_train:syncPNJTrainEvent", -1, tablePNJ)
 end)
