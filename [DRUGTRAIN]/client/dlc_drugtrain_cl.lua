@@ -4,8 +4,8 @@ local testspawnpnj = false
 local caissedrug = {}
 
 RegisterNetEvent('az_train:dlccreateDrugsTrainClient', function(index)
-    SendNotification(DrugTrainConfig.Lang["EventStart"])
-    TriggerCallback('az_train:dlchavespawntrain', function(spawntrain)
+    Config.SendNotification(DrugTrainConfig.Lang["EventStart"])
+    Config.CallBack('az_train:dlchavespawntrain', function(spawntrain)
         if spawntrain then
             RequestModel(GetHashKey('v_ind_cf_boxes'))
             while not HasModelLoaded(GetHashKey('v_ind_cf_boxes')) do
@@ -41,7 +41,7 @@ RegisterNetEvent("az_train:syncPNJTrainEvent", function(pnjdata)
 end)
 
 RegisterNetEvent('az_train:dlcremoveDrugsTrainClient', function(index)
-    SendNotification(DrugTrainConfig.Lang["EventStop"])
+    Config.SendNotification(DrugTrainConfig.Lang["EventStop"])
     for b, c in pairs(SecurityPed) do
         DeleteEntity(c)
         SecurityPed[b] = nil
@@ -84,7 +84,7 @@ function LaunchTrain(index)
                     local caissecoords = vector3(coordscaisse.x, coordscaisse.y, coordscaisse.z)
                     if GetDistanceBetweenCoords(playercoords, caissecoords, true) < 2 then
                         wait = 0
-                        HelpNotification(DrugTrainConfig.Lang["TakeCargaison"])
+                        Config.HelpNotification(DrugTrainConfig.Lang["TakeCargaison"])
                         if IsControlJustReleased(0, 38) then
                             allpnjdeath = true
                             for b, c in pairs(SecurityPed) do
@@ -101,13 +101,13 @@ function LaunchTrain(index)
                                 TriggerServerEvent('az_train:dlcgiverewardtraindrug', index)
                                 indrugmissiontrain = false
                             else
-                                SendNotification(DrugTrainConfig.Lang["NotAllPNJDeath"])
+                                Config.SendNotification(DrugTrainConfig.Lang["NotAllPNJDeath"])
                             end
                         end
                     end
                     if not testspawnpnj then
                         testspawnpnj = true
-                        TriggerCallback('az_train:dlchavespawnpnj', function(spawnpnj)
+                        Config.CallBack('az_train:dlchavespawnpnj', function(spawnpnj)
                             if spawnpnj then
                                 for b, n in pairs(SecurityPed) do
                                     SecurityPed[b] = nil
@@ -160,18 +160,6 @@ function RemoveThisTrain(traintodelete)
     Citizen.SetTimeout(30000, function()
         DeleteMissionTrain(traintodelete)
     end)
-end
-
-function TriggerCallback(callbackname, cb, ...)
-    if Config.FrameWork == 'ESX' then
-        ESX.TriggerServerCallback(callbackname, function(tempcb)
-            cb(tempcb)
-        end, ...)
-    elseif Config.FrameWork == 'QBCore' then
-        QBCore.Functions.TriggerCallback(callbackname, function(tempcb)
-            cb(tempcb)
-        end, ...)
-    end
 end
 
 print("[AZ_TRAIN] - DLC Drug Train Load")
