@@ -44,7 +44,7 @@ DrugTrainConfig.DrugTrain = {
 
 function DrugTrainConfigFunctionProgressBar(time, msg)
     if Config.FrameWork == 'ESX' then
-        ProgressBar(time, msg)
+        -- Add your own progress bar export here
     elseif Config.FrameWork == 'QBCore' then
         QBCore.Functions.Progressbar("", msg, time, false, true, {
                 disableMovement = false,
